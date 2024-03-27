@@ -7,9 +7,9 @@ on:
 jobs:
   close_issue:
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'Status: Done'
     steps:
       - name: Close Issue
+        if: contains(github.event.issue.labels.*.name, 'Status: Done')
         uses: actions/github-script@v6
         with:
           script: |
