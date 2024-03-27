@@ -7,15 +7,19 @@ on:
 jobs:
   close_issue:
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'Status: Done'
     steps:
-      - name: Close Issue
+      - name: Close Issue if Status is Done
         uses: actions/github-script@v6
         with:
           script: |
-            github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              state: 'closed'
-            })
+            const issue = context.issue;
+            const isDone = github.event.issue.labels.some(
+              label => label.name === 'Status: Done'
+            );
+
+            if (isDone) {
+              await github.rest.issues.update({
+                ...issue,
+                state: 'closed'
+              });
+            }
