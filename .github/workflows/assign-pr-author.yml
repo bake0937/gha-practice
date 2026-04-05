@@ -1,4 +1,4 @@
-name: Assign PR Author as Assignee
+name: Assign PR author as Assignee
 
 on:
   pull_request:
